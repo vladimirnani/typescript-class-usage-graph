@@ -1,5 +1,5 @@
 {
-  "name": "graph-generator",
+  "name": "ts-class-usages-graph",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
