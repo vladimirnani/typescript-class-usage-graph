@@ -1,0 +1,49 @@
+digraph "G" {
+  compound = true;
+  splines = "polyline";
+  subgraph "cluster_0" {
+    label = "events";
+    "CreatedEvent" [
+      shape = "box",
+      style = "filled",
+      color = "orange",
+    ];
+    "DeletedEvent" [
+      shape = "box",
+      style = "filled",
+      color = "orange",
+    ];
+    "ChangedEvent" [
+      shape = "box",
+      style = "filled",
+      color = "orange",
+    ];
+    subgraph "cluster" {
+      label = "modules";
+      "module1.ts" [
+        shape = "box",
+      ];
+      "module2.ts" [
+        shape = "box",
+      ];
+      "module4.ts" [
+        shape = "box",
+      ];
+    }
+  }
+  "module1.ts" -> "CreatedEvent" [
+    color = "#6500f1",
+  ];
+  "module2.ts" -> "CreatedEvent" [
+    color = "#d9c995",
+  ];
+  "module2.ts" -> "DeletedEvent" [
+    color = "#d9c995",
+  ];
+  "module2.ts" -> "ChangedEvent" [
+    color = "#d9c995",
+  ];
+  "module4.ts" -> "ChangedEvent" [
+    color = "#7c4c81",
+  ];
+}
