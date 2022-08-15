@@ -39,3 +39,8 @@ dist/**/*
 
 # ignore yarn.lock
 yarn.lock
+*.js
+
+*.map
+
+*.tgz

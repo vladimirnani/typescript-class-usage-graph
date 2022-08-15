@@ -85,20 +85,16 @@ function generateGraph(filesByEvent: Record<string, Array<string>>) {
     return toDot(graph)
 }
 
-void (async (dir) => {
+export async function analyzeUsage(usageTarget: string, dir: string, exceptions: string[], outputName: string) {
     const parser = new TypescriptParser()
+    const eventsExported = await parser.parseFile(usageTarget, '.')
 
-    const eventsExported = await parser.parseFile(path.join(dir, 'example', 'events.ts'), '.')
-
-    const exceptions = [
-        'module3.ts',
-    ]
-    const filesByEvent: Record<string, Array<string>> = {}
+    const modulesByDeclaration: Record<string, Array<string>> = {}
     for (const file of findAllTypescriptFiles(dir)) {
-        await analyzeFile(file, eventsExported.declarations, exceptions, filesByEvent)
+        await analyzeFile(file, eventsExported.declarations, exceptions, modulesByDeclaration)
     }
-    const dot = generateGraph(filesByEvent)
-    fs.writeFileSync('events.dot', dot)
+    const dot = generateGraph(modulesByDeclaration)
+    fs.writeFileSync(`${outputName}.dot`, dot)
+    exec(`dot -Grankdir=LR -Tpng ${outputName}.dot -o ${outputName}.png`)
+}
 
-    exec('dot -Grankdir=LR -Tpng events.dot -o events.png')
-})(__dirname )
